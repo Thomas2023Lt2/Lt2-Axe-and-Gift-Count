@@ -1,0 +1,49 @@
+-- Define the list of specific ItemName values to count and their descriptions
+local itemNamesToCount = {
+    ["2015CGift_Volcano"] = "Fire Axe Gift",
+    ["2018CGift_GingerAxe"] = "Ginger Axe Gift",
+    ["2019CGift_Rusty"] = "Rusty Axe Gift",
+    ["2020CGift_Cave"] = "Rusty Axe Gift",
+    ["2021CGift_Goo"] = "Overgrown Axe Gift",
+    ["2022CGift_Cold"] = "Frost Axe Gift",
+    ["2017CGift_GreatTimes"] = "Chicken Axe Gift",
+    ["2016CGift_Sweet"] = "Candy Axe Gift (Not CandyCorn not exist)",
+}
+
+-- Create item names and counts
+local itemNames = {}
+for itemName, description in pairs(itemNamesToCount) do
+    itemNames[itemName] = 0
+end
+
+for _, descendant in ipairs(workspace:GetDescendants()) do
+    if descendant:IsA("StringValue") and descendant.Name == "ItemName" then
+        local itemName = descendant.Value
+        if itemNames[itemName] then
+            itemNames[itemName] = itemNames[itemName] + 1
+        end
+    end
+end
+
+-- Print item names and counts with the descriptions included
+print("Gift Count/Name: (only axe gifts)")
+for itemName, count in pairs(itemNames) do
+    local description = itemNamesToCount[itemName] or ""
+    print(description .. ": " .. count)
+end
+
+print("---------------------------------------------------------------")
+
+print("Axe Count/Name:")
+local toolNames = {}
+for _, descendant in ipairs(workspace:GetDescendants()) do
+    if descendant:IsA("StringValue") and descendant.Name == "ToolName" then
+        toolNames[descendant.Value] = (toolNames[descendant.Value] or 0) + 1
+    end
+end
+for toolName, count in pairs(toolNames) do
+    if count > 0 then
+        print(toolName .. ": " .. count)
+    end
+end
+
